@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# healthcare-agent-mcp
-Modular, production-ready healthcare agent with FastMCP, LangGraph, and FHIR R4
-=======
 # Healthcare Agent MCP
 
 A compact healthcare workflow service with three interfaces:
@@ -136,4 +132,3 @@ This repository is intentionally simple, but the structure is reusable:
 - prefer managed deployment targets over temporary share links for public access
 
 For production rollout, add stronger auth, structured observability, deployment automation, and a secure secret manager integration.
->>>>>>> 9248024c8b7ac2e7416829f3f6b924ed050636dd

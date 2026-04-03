@@ -1,5 +1,7 @@
 import json
 import logging
+import os
+import tempfile
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict
@@ -8,7 +10,16 @@ from healthcare_agent.agent.state import PatientWorkflowState
 from healthcare_agent.context.sharp import SHARPContext
 
 logger = logging.getLogger(__name__)
-AUDIT_LOG_FILE = Path("logs/audit.log")
+
+
+def _default_audit_log_file() -> Path:
+    configured = os.getenv("AUDIT_LOG_FILE", "").strip()
+    if configured:
+        return Path(configured)
+    return Path(tempfile.gettempdir()) / "healthcare-agent-mcp" / "audit.log"
+
+
+AUDIT_LOG_FILE = _default_audit_log_file()
 
 
 def log_workflow_completion(
@@ -34,6 +45,9 @@ def log_workflow_completion(
 
 
 def _write_audit_log(entry: Dict[str, Any]) -> None:
-    AUDIT_LOG_FILE.parent.mkdir(exist_ok=True)
-    with open(AUDIT_LOG_FILE, "a", encoding="utf-8") as file_handle:
-        file_handle.write(json.dumps(entry) + "\n")
+    try:
+        AUDIT_LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(AUDIT_LOG_FILE, "a", encoding="utf-8") as file_handle:
+            file_handle.write(json.dumps(entry) + "\n")
+    except OSError as exc:
+        logger.warning("Audit logging skipped: %s", exc)
