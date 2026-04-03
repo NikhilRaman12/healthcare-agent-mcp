@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Any
 
 from healthcare_agent.agent.state import PatientWorkflowState
 from healthcare_agent.agent.workflow import PatientWorkflow
@@ -48,6 +49,13 @@ def build_initial_state(
     }
 
 
+def _sanitize_state(state: PatientWorkflowState) -> dict[str, Any]:
+    sanitized = dict(state)
+    if sanitized.get("fhir_token"):
+        sanitized["fhir_token"] = "[redacted]"
+    return sanitized
+
+
 def run_patient_workflow(
     context: SHARPContext,
     initial_state: PatientWorkflowState,
@@ -58,6 +66,6 @@ def run_patient_workflow(
     log_workflow_completion(context, final_state, routing_result)
     return {
         "context": context.as_dict(),
-        "final_state": final_state,
+        "final_state": _sanitize_state(final_state),
         "routing_result": routing_result,
     }

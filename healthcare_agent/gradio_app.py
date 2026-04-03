@@ -48,6 +48,9 @@ demo = build_demo()
 
 
 if __name__ == "__main__":
+    server_name = os.getenv("GRADIO_SERVER_NAME", "0.0.0.0").strip() or "0.0.0.0"
     configured_port = os.getenv("GRADIO_SERVER_PORT", "").strip()
     server_port = int(configured_port) if configured_port else None
-    demo.launch(server_name="127.0.0.1", server_port=server_port, inbrowser=False, share=True)
+    configured_share = os.getenv("GRADIO_SHARE", "false").strip().lower()
+    share = configured_share in {"1", "true", "yes", "on"}
+    demo.launch(server_name=server_name, server_port=server_port, inbrowser=False, share=share)

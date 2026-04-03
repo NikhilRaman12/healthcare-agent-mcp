@@ -7,3 +7,5 @@ logs/
 *.pyc
 .streamlit/
 gradio_cached_examples/
+.gradio/
+healthcare_agent.db
