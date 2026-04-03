@@ -1,0 +1,11 @@
+.env
+venv/
+__pycache__/
+.pytest_cache/
+logs/
+.coverage
+*.pyc
+.streamlit/
+gradio_cached_examples/
+.gradio/
+healthcare_agent.db
