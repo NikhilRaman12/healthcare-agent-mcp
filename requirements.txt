@@ -11,3 +11,4 @@ anthropic
 python-dateutil
 python-json-logger
 gradio
+pyaudioop
