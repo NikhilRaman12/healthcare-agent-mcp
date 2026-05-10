@@ -3,11 +3,5 @@ pydantic>=2.0.0
 pydantic-settings>=2.0.0
 requests
 httpx
-fhirclient
-langchain
-langchain-anthropic
-langgraph
-anthropic
-python-dateutil
-python-json-logger
+groq
 gradio
