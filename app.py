@@ -295,7 +295,7 @@ def run_workflow(patient_selection):
         # Build summary
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         summary = f"""╔══════════════════════════════════════════════╗
-   HEALTHCARE AGENT — MCP WORKFLOW COMPLETE
+   ARIA — WORKFLOW COMPLETE
 ╚══════════════════════════════════════════════╝
 
 PATIENT   : {patient['name']} (ID: {pid})
@@ -394,8 +394,8 @@ Human Oversight   : {25 + triage['triage_score'] * 2}% of this case
 
 # ── GRADIO UI ────────────────────────────────────────────────────
 
-with gr.Blocks(title="Healthcare Agent Demo", theme=gr.themes.Soft()) as demo:
-    gr.Markdown("# 🏥 Healthcare Agent — MCP Powered Automation")
+with gr.Blocks(title="ARIA - Healthcare AI Agent", theme=gr.themes.Soft()) as demo:
+    gr.Markdown("# 🏥 ARIA — Automated Reasoning & Intelligence Agent for Healthcare")
     gr.Markdown(
         "Automates **51-75%** of daily healthcare workflows using "
         "**FHIR R4 · AI Triage · Clinical Documentation · SHARP Context**"
@@ -435,9 +435,9 @@ with gr.Blocks(title="Healthcare Agent Demo", theme=gr.themes.Soft()) as demo:
 
     gr.Markdown(
         "---\n"
-        "**Built for Prompt Opinion Healthcare Hackathon** | "
-        "LangGraph + MCP + FHIR R4 + SHARP | "
-        "GitHub: NikhilRaman1203/healthcare-agent-mcp-tools"
+        "**ARIA — Automated Reasoning & Intelligence Agent for Healthcare** | "
+        "Built for Prompt Opinion Healthcare Hackathon | "
+        "LangGraph + MCP + FHIR R4 + SHARP + Groq AI"
     )
 
     run_btn.click(
