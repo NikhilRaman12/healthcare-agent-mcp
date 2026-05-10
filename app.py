@@ -6,7 +6,7 @@ import httpx
 from datetime import datetime
 from groq import Groq
 
-groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY")) if os.environ.get("GROQ_API_KEY") else None
 FHIR_BASE = "https://r4.smarthealthit.org"
 
 DEMO_PATIENTS = {
@@ -162,6 +162,8 @@ Return ONLY this JSON, no other text:
 Rules: chest pain or SpO2<94 or HR>120 = score>=8 emergent. Score>=8 = human_review_required true."""
 
     try:
+        if not groq_client:
+            raise Exception("Groq API key not configured")
         resp = groq_client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[
@@ -218,6 +220,8 @@ CODE | DESCRIPTION | CONFIDENCE
 (5 codes)"""
 
     try:
+        if not groq_client:
+            raise Exception("Groq API key not configured")
         resp = groq_client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[
@@ -394,7 +398,7 @@ Human Oversight   : {25 + triage['triage_score'] * 2}% of this case
 
 # ── GRADIO UI ────────────────────────────────────────────────────
 
-with gr.Blocks(title="ARIA - Healthcare AI Agent", theme=gr.themes.Soft()) as demo:
+with gr.Blocks(title="ARIA - Healthcare AI Agent") as demo:
     gr.Markdown("# 🏥 ARIA — Automated Reasoning & Intelligence Agent for Healthcare")
     gr.Markdown(
         "Automates **51-75%** of daily healthcare workflows using "
@@ -423,14 +427,12 @@ with gr.Blocks(title="ARIA - Healthcare AI Agent", theme=gr.themes.Soft()) as de
         summary_out = gr.Textbox(
             label="Summary",
             lines=45,
-            max_lines=80,
-            show_copy_button=True
+            max_lines=80
         )
         json_out = gr.Textbox(
             label="Raw JSON",
             lines=45,
-            max_lines=80,
-            show_copy_button=True
+            max_lines=80
         )
 
     gr.Markdown(
